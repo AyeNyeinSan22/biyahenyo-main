@@ -1,0 +1,471 @@
+[
+  {
+    "code": "JEEP-ALANGILAN-SM",
+    "displayName": "Alangilan to SM Batangas (Yellow Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "BSU Alangilan Entrance",
+    "destinationLabel": "SM City Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "BSU Alangilan Entrance",
+      "Hilltop Road Junction",
+      "Capitolio / Provincial Capitol",
+      "SM City Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-BALAGTAS-SM",
+    "displayName": "Balagtas to SM Batangas (Yellow Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Balagtas Rotonda",
+    "destinationLabel": "SM City Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Balagtas Rotonda",
+      "Hilltop Road Junction",
+      "Batangas Grand Terminal",
+      "SM City Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-CAPITOLIO-PIER",
+    "displayName": "Capitolio to Pier (White Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Capitolio / Provincial Capitol",
+    "destinationLabel": "Pier Area",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Capitolio / Provincial Capitol",
+      "Batangas City Hall",
+      "Pier Area"
+    ]
+  },
+  {
+    "code": "JEEP-LIBJO-SM",
+    "displayName": "Libjo to SM Batangas (Green Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Libjo Central",
+    "destinationLabel": "SM City Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Libjo Central",
+      "Batangas Grand Terminal",
+      "SM City Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-MABACONG-SM",
+    "displayName": "Mabacong to SM Batangas (Red Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Mabacong Junction",
+    "destinationLabel": "SM City Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Mabacong Junction",
+      "Bauan Junction",
+      "Capitolio / Provincial Capitol",
+      "SM City Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-SM",
+    "displayName": "City Proper to SM Batangas Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "SM City Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Bay City Mall",
+      "SM City Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-TERMINAL",
+    "displayName": "City Proper to Grand Terminal Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Batangas Grand Terminal",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Bay City Mall",
+      "Batangas Grand Terminal"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-CAPITOLIO",
+    "displayName": "City Proper to Capitolio Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Capitolio / Provincial Capitol",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Capitolio / Provincial Capitol"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-HILLTOP",
+    "displayName": "City Proper to Hilltop Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Hilltop Road Junction",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Hilltop Road Junction"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-BALAGTAS",
+    "displayName": "City Proper to Balagtas Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Balagtas Rotonda",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Hilltop Road Junction",
+      "Balagtas Rotonda"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-ALANGILAN",
+    "displayName": "City Proper to Alangilan Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "BSU Alangilan Entrance",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Hilltop Road Junction",
+      "BSU Alangilan Entrance"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-LIBJO",
+    "displayName": "City Proper to Libjo Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Libjo Central",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Bay City Mall",
+      "Libjo Central"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-MABACONG",
+    "displayName": "City Proper to Mabacong Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Mabacong Junction",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Libjo Central",
+      "Mabacong Junction"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-BAUAN",
+    "displayName": "City Proper to Bauan Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Bauan Junction",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Pier Area",
+      "Bauan Junction"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-LEMERY",
+    "displayName": "City Proper to Lemery Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Lemery Junction",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Bauan Junction",
+      "Lemery Junction"
+    ]
+  },
+  {
+    "code": "JEEP-CITYPROPER-ROSARIO",
+    "displayName": "City Proper to Rosario Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas City Hall",
+    "destinationLabel": "Rosario Junction",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas City Hall",
+      "Hilltop Road Junction",
+      "Rosario Junction"
+    ]
+  },
+  {
+    "code": "JEEP-SM-ALANGILAN",
+    "displayName": "SM Batangas to Alangilan Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "SM City Batangas",
+    "destinationLabel": "BSU Alangilan Entrance",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "SM City Batangas",
+      "Hilltop Road Junction",
+      "BSU Alangilan Entrance"
+    ]
+  },
+  {
+    "code": "JEEP-HILLTOP-TERMINAL",
+    "displayName": "Hilltop to Grand Terminal Jeepney",
+    "mode": "JEEPNEY",
+    "originLabel": "Hilltop Road Junction",
+    "destinationLabel": "Batangas Grand Terminal",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Hilltop Road Junction",
+      "Batangas Grand Terminal"
+    ]
+  },
+  {
+    "code": "JEEP-ALANGILAN-POBLACION",
+    "displayName": "Alangilan to Poblacion (Yellow Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Batangas Grand Terminal",
+    "destinationLabel": "LPU - Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas Grand Terminal",
+      "SM Hypermarket",
+      "BatStateU-Alangilan",
+      "Don Ramos",
+      "UB/Hilltop",
+      "Lawas",
+      "Bay City Mall",
+      "Bago/New Public Market",
+      "BatStateU - PB",
+      "Luma/Old Market",
+      "BC East ES",
+      "LPU - Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-BAUAN-BATANGAS",
+    "displayName": "Bauan to Batangas City (Blue Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Bauan Junction",
+    "destinationLabel": "Diversion Road Junction",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Bauan Junction",
+      "Diversion Road Junction",
+      "Lawas",
+      "Bay City Mall",
+      "Citimart",
+      "Bago/New Public Market",
+      "BatStateU - PB",
+      "Philippine Ports Authority",
+      "Diversion Road Junction"
+    ]
+  },
+  {
+    "code": "JEEP-LIBJO-POBLACION",
+    "displayName": "Libjo to Poblacion (Green Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Libjo Central",
+    "destinationLabel": "SM City Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Libjo Central",
+      "Tierra Verde Subdivision",
+      "SM City Batangas",
+      "Plaza Mabini",
+      "Bago/New Public Market",
+      "BatStateU - PB",
+      "Luma/Old Market",
+      "Pandayan Bookshop",
+      "Plaza Mabini",
+      "SM City Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-BALETE-POBLACION",
+    "displayName": "Balete to Poblacion (Red Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Balete",
+    "destinationLabel": "Diversion Road Junction",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Balete",
+      "Batangas Grand Terminal",
+      "Diversion Road Junction",
+      "Lawas",
+      "Bay City Mall",
+      "Bago/New Public Market",
+      "BatStateU - PB",
+      "Philippine Ports Authority",
+      "Diversion Road Junction"
+    ]
+  },
+  {
+    "code": "JEEP-SOROSORO-POBLACION",
+    "displayName": "Soro Soro to Poblacion (Red Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Tingga/Soro soro",
+    "destinationLabel": "Don Ramos",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Tingga/Soro soro",
+      "SM Hypermarket",
+      "BatStateU-Alangilan",
+      "Don Ramos",
+      "UB/Hilltop",
+      "LPU - Batangas",
+      "BC East ES",
+      "Bay City Mall",
+      "Bago/New Public Market",
+      "BatStateU - PB",
+      "Luma/Old Market",
+      "Don Ramos"
+    ]
+  },
+  {
+    "code": "JEEP-LIPA-BATANGAS",
+    "displayName": "Lipa to Batangas City (Red Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Lipa/San Jose",
+    "destinationLabel": "Grand Terminal",
+    "baseFare": 25,
+    "active": true,
+    "stops": [
+      "Lipa/San Jose Entrance",
+      "SM Hypermarket",
+      "BatStateU-Alangilan",
+      "Don Ramos",
+      "UB/Hilltop",
+      "Lawas",
+      "Diversion Road Junction",
+      "Batangas Grand Terminal"
+    ]
+  },
+  {
+    "code": "JEEP-DAGATAN-BATANGAS",
+    "displayName": "Dagatan to Batangas City (Orange Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Dagatan (Taysan)",
+    "destinationLabel": "Dagatan Terminal",
+    "baseFare": 20,
+    "active": true,
+    "stops": [
+      "Dagatan/Taysan Entrance",
+      "LPU Riverside",
+      "Don Ramos",
+      "UB/Hilltop",
+      "LPU - Batangas",
+      "BC East ES",
+      "Bay City Mall",
+      "Plaza Mabini",
+      "SM City Batangas",
+      "Dagatan Jeepney Terminal"
+    ]
+  },
+  {
+    "code": "JEEP-CAPITOLIO-HOSPITAL",
+    "displayName": "Capitolio-Hospital Loop (White Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "SM City Batangas",
+    "destinationLabel": "SM City Batangas",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "SM City Batangas",
+      "Total Gulod",
+      "LPU Riverside",
+      "Don Ramos",
+      "UB/Hilltop",
+      "LPU - Batangas",
+      "BC East ES",
+      "Golden Gate College",
+      "Citimart",
+      "Luma/Old Market",
+      "Bay City Mall",
+      "Lawas",
+      "UB/Hilltop",
+      "Capitolio / Provincial Capitol",
+      "Batangas Medical Center",
+      "SM City Batangas"
+    ]
+  },
+  {
+    "code": "JEEP-STACLARA-PIER",
+    "displayName": "Sta. Clara to Pier (Yellow Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Pier/Port",
+    "destinationLabel": "Sta. Clara ES",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Pier Area",
+      "BatStateU - PB",
+      "Luma/Old Market",
+      "Bago/New Public Market",
+      "Sta. Clara Elementary School"
+    ]
+  },
+  {
+    "code": "JEEP-BALAGTAS-POBLACION-DETAIL",
+    "displayName": "Balagtas to Poblacion (Yellow Detail Route)",
+    "mode": "JEEPNEY",
+    "originLabel": "Grand Terminal",
+    "destinationLabel": "Don Ramos",
+    "baseFare": 15,
+    "active": true,
+    "stops": [
+      "Batangas Grand Terminal",
+      "SM Hypermarket",
+      "BatStateU-Alangilan",
+      "Don Ramos",
+      "UB/Hilltop",
+      "LPU - Batangas",
+      "BC East ES",
+      "Golden Gate College",
+      "Citimart",
+      "Bago/New Public Market",
+      "BatStateU - PB",
+      "Luma/Old Market",
+      "Bay City Mall",
+      "Lawas",
+      "Capitolio / Provincial Capitol",
+      "Don Ramos"
+    ]
+  }
+]

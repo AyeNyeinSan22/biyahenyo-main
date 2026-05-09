@@ -1,0 +1,122 @@
+[
+  {
+    "plateNumber": "ALG-01",
+    "label": "Alangilan Jeepney 01",
+    "driverName": "Demo Driver",
+    "driverEmail": "driver@gmail.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-ALANGILAN-POBLACION",
+    "latitude": 13.7850,
+    "longitude": 121.0665
+  },
+  {
+    "plateNumber": "ALG-02",
+    "label": "Alangilan Jeepney 02",
+    "driverName": "Driver Alangilan 2",
+    "driverEmail": "alangilan2@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-ALANGILAN-SM",
+    "latitude": 13.7845,
+    "longitude": 121.0600
+  },
+  {
+    "plateNumber": "BAL-01",
+    "label": "Balagtas Jeepney 01",
+    "driverName": "Driver Balagtas",
+    "driverEmail": "balagtas@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-BALAGTAS-SM",
+    "latitude": 13.8047,
+    "longitude": 121.0612
+  },
+  {
+    "plateNumber": "BAL-02",
+    "label": "Balagtas Jeepney 02",
+    "driverName": "Driver Balagtas 2",
+    "driverEmail": "balagtas2@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-BALAGTAS-SM",
+    "latitude": 13.7565,
+    "longitude": 121.0589
+  },
+  {
+    "plateNumber": "PIER-01",
+    "label": "Pier Jeepney 01",
+    "driverName": "Driver Pier",
+    "driverEmail": "pier@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-CAPITOLIO-PIER",
+    "latitude": 13.7560,
+    "longitude": 121.0573
+  },
+  {
+    "plateNumber": "PIER-02",
+    "label": "Pier Jeepney 02",
+    "driverName": "Driver Pier 2",
+    "driverEmail": "pier2@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-CAPITOLIO-PIER",
+    "latitude": 13.7582,
+    "longitude": 121.0557
+  },
+  {
+    "plateNumber": "LIB-01",
+    "label": "Libjo Jeepney 01",
+    "driverName": "Driver Libjo",
+    "driverEmail": "libjo@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-LIBJO-SM",
+    "latitude": 13.7395,
+    "longitude": 121.0498
+  },
+  {
+    "plateNumber": "LIB-02",
+    "label": "Libjo Jeepney 02",
+    "driverName": "Driver Libjo 2",
+    "driverEmail": "libjo2@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-LIBJO-SM",
+    "latitude": 13.7565,
+    "longitude": 121.0589
+  },
+  {
+    "plateNumber": "MAB-01",
+    "label": "Mabacong Jeepney 01",
+    "driverName": "Driver Mabacong",
+    "driverEmail": "mabacong@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-MABACONG-SM",
+    "latitude": 13.7220,
+    "longitude": 121.0435
+  },
+  {
+    "plateNumber": "MAB-02",
+    "label": "Mabacong Jeepney 02",
+    "driverName": "Driver Mabacong 2",
+    "driverEmail": "mabacong2@biyahenyo.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-MABACONG-SM",
+    "latitude": 13.7926,
+    "longitude": 121.0081
+  },
+  {
+    "plateNumber": "BLU-01",
+    "label": "Bauan Blue Jeepney",
+    "driverName": "Driver Bauan",
+    "driverEmail": "bauan@gmail.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-BAUAN-BATANGAS",
+    "latitude": 13.7891,
+    "longitude": 121.0445
+  },
+  {
+    "plateNumber": "GRN-01",
+    "label": "Libjo Green Jeepney",
+    "driverName": "Driver Libjo",
+    "driverEmail": "libjogreen@gmail.com",
+    "status": "ACTIVE",
+    "routeCode": "JEEP-LIBJO-POBLACION",
+    "latitude": 13.7445,
+    "longitude": 121.0501
+  }
+]

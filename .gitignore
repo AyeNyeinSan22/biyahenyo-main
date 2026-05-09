@@ -1,0 +1,9 @@
+build/
+dist/
+.gradle/
+.gradle-home/
+node_modules/
+nbproject/private/
+*.class
+*.jar
+*.log

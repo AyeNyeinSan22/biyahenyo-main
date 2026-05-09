@@ -1,0 +1,266 @@
+[
+  {
+    "name": "SM City Batangas",
+    "latitude": 13.7567,
+    "longitude": 121.0584,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Batangas Grand Terminal",
+    "latitude": 13.7565,
+    "longitude": 121.0589,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Hilltop Road Junction",
+    "latitude": 13.7845,
+    "longitude": 121.0600,
+    "areaLabel": "Hilltop"
+  },
+  {
+    "name": "BSU Alangilan Entrance",
+    "latitude": 13.7815,
+    "longitude": 121.0665,
+    "areaLabel": "Alangilan"
+  },
+  {
+    "name": "Balagtas Rotonda",
+    "latitude": 13.8047,
+    "longitude": 121.0612,
+    "areaLabel": "Balagtas"
+  },
+  {
+    "name": "Batangas City Hall",
+    "latitude": 13.7562,
+    "longitude": 121.0580,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Batangas Medical Center",
+    "latitude": 13.7706,
+    "longitude": 121.0669,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Capitolio / Provincial Capitol",
+    "latitude": 13.7560,
+    "longitude": 121.0573,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Pier Area",
+    "latitude": 13.7582,
+    "longitude": 121.0557,
+    "areaLabel": "Pier"
+  },
+  {
+    "name": "Diversion Road Junction",
+    "latitude": 13.7695,
+    "longitude": 121.0608,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Libjo Central",
+    "latitude": 13.7395,
+    "longitude": 121.0498,
+    "areaLabel": "Libjo"
+  },
+  {
+    "name": "Mabacong Junction",
+    "latitude": 13.7220,
+    "longitude": 121.0435,
+    "areaLabel": "Mabacong"
+  },
+  {
+    "name": "Rosario Junction",
+    "latitude": 13.8527,
+    "longitude": 121.2003,
+    "areaLabel": "Rosario"
+  },
+  {
+    "name": "Lemery Junction",
+    "latitude": 13.8795,
+    "longitude": 120.9137,
+    "areaLabel": "Lemery"
+  },
+  {
+    "name": "Bauan Junction",
+    "latitude": 13.7926,
+    "longitude": 121.0081,
+    "areaLabel": "Bauan"
+  },
+  {
+    "name": "Golden Country Homes Gate",
+    "latitude": 13.7912,
+    "longitude": 121.0583,
+    "areaLabel": "Alangilan"
+  },
+  {
+    "name": "Bay City Mall",
+    "latitude": 13.7546,
+    "longitude": 121.0581,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Lyceum of the Philippines Batangas",
+    "latitude": 13.7684,
+    "longitude": 121.0695,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Tinga Labak Area",
+    "latitude": 13.7703,
+    "longitude": 121.0721,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "San Jose Sico Junction",
+    "latitude": 13.8135,
+    "longitude": 121.0702,
+    "areaLabel": "San Jose Sico"
+  },
+  {
+    "name": "SM Hypermarket",
+    "latitude": 13.7820,
+    "longitude": 121.0601,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "BatStateU-Alangilan",
+    "latitude": 13.7745,
+    "longitude": 121.0740,
+    "areaLabel": "Alangilan"
+  },
+  {
+    "name": "Don Ramos",
+    "latitude": 13.7730,
+    "longitude": 121.0650,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "UB/Hilltop",
+    "latitude": 13.7663,
+    "longitude": 121.0583,
+    "areaLabel": "Hilltop"
+  },
+  {
+    "name": "Lawas",
+    "latitude": 13.7610,
+    "longitude": 121.0560,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Bago/New Public Market",
+    "latitude": 13.7565,
+    "longitude": 121.0630,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "BatStateU - PB",
+    "latitude": 13.7540,
+    "longitude": 121.0540,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Luma/Old Market",
+    "latitude": 13.7580,
+    "longitude": 121.0550,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "BC East ES",
+    "latitude": 13.7562,
+    "longitude": 121.0610,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "LPU - Batangas",
+    "latitude": 13.7684,
+    "longitude": 121.0695,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Citimart",
+    "latitude": 13.7568,
+    "longitude": 121.0575,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Philippine Ports Authority",
+    "latitude": 13.7582,
+    "longitude": 121.0557,
+    "areaLabel": "Pier"
+  },
+  {
+    "name": "Tierra Verde Subdivision",
+    "latitude": 13.7530,
+    "longitude": 121.0800,
+    "areaLabel": "Pallocan"
+  },
+  {
+    "name": "Plaza Mabini",
+    "latitude": 13.7565,
+    "longitude": 121.0580,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Pandayan Bookshop",
+    "latitude": 13.7575,
+    "longitude": 121.0585,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Balete",
+    "latitude": 13.8150,
+    "longitude": 121.0800,
+    "areaLabel": "Balete"
+  },
+  {
+    "name": "Tingga/Soro soro",
+    "latitude": 13.7850,
+    "longitude": 121.0850,
+    "areaLabel": "Tingga"
+  },
+  {
+    "name": "Lipa/San Jose Entrance",
+    "latitude": 13.8200,
+    "longitude": 121.1000,
+    "areaLabel": "Lipa"
+  },
+  {
+    "name": "Dagatan/Taysan Entrance",
+    "latitude": 13.7800,
+    "longitude": 121.1500,
+    "areaLabel": "Dagatan"
+  },
+  {
+    "name": "LPU Riverside",
+    "latitude": 13.7540,
+    "longitude": 121.0700,
+    "areaLabel": "Gulod"
+  },
+  {
+    "name": "Dagatan Jeepney Terminal",
+    "latitude": 13.7500,
+    "longitude": 121.0650,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Total Gulod",
+    "latitude": 13.7500,
+    "longitude": 121.0750,
+    "areaLabel": "Gulod"
+  },
+  {
+    "name": "Golden Gate College",
+    "latitude": 13.7560,
+    "longitude": 121.0600,
+    "areaLabel": "City Center"
+  },
+  {
+    "name": "Sta. Clara Elementary School",
+    "latitude": 13.7600,
+    "longitude": 121.0480,
+    "areaLabel": "Sta. Clara"
+  }
+]
