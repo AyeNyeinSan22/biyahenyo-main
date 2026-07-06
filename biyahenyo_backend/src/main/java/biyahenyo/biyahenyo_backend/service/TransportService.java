@@ -1,13 +1,8 @@
 package biyahenyo.biyahenyo_backend.service;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
+import static biyahenyo.biyahenyo_backend.util.GeoUtil.distanceMeters;
+import static biyahenyo.biyahenyo_backend.util.GeoUtil.samePoint;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,13 +14,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import biyahenyo.biyahenyo_backend.dto.CoordinateResponse;
 import biyahenyo.biyahenyo_backend.dto.DriverDashboardResponse;
@@ -54,47 +48,48 @@ import biyahenyo.biyahenyo_backend.model.VehicleLocation;
 import biyahenyo.biyahenyo_backend.model.VehicleStatus;
 import biyahenyo.biyahenyo_backend.repository.TransitRouteRepository;
 import biyahenyo.biyahenyo_backend.repository.TransitRouteStopRepository;
-import biyahenyo.biyahenyo_backend.repository.TransitStopRepository;
 import biyahenyo.biyahenyo_backend.repository.TransitVehicleRepository;
 import biyahenyo.biyahenyo_backend.repository.TransportRepository;
 import biyahenyo.biyahenyo_backend.repository.VehicleLocationRepository;
+import biyahenyo.biyahenyo_backend.service.GeocodingService.GeocodedPlace;
+import biyahenyo.biyahenyo_backend.service.RoutingService.RouteResult;
 
 @Service
 @Transactional
 public class TransportService {
 
+    private static final Logger log = LoggerFactory.getLogger(TransportService.class);
     private static final DateTimeFormatter DRIVER_DATE_FORMAT =
             DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
     private static final DateTimeFormatter TIME_FORMAT =
             DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
     private static final List<String> AVAILABLE_MODES = List.of("TRICYCLE", "JEEPNEY");
-    private static final String NOMINATIM_BASE = "https://nominatim.openstreetmap.org/search";
-    private static final String OSRM_BASE = "https://router.project-osrm.org/route/v1/driving/";
 
-    private final TransitStopRepository stopRepository;
     private final TransitRouteRepository routeRepository;
     private final TransitRouteStopRepository routeStopRepository;
     private final TransitVehicleRepository vehicleRepository;
     private final VehicleLocationRepository locationRepository;
     private final TransportRepository transportRepository;
-    private final HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final GeocodingService geocodingService;
+    private final RoutingService routingService;
     private final Map<String, TripState> trips = new ConcurrentHashMap<>();
 
     public TransportService(
-            TransitStopRepository stopRepository,
             TransitRouteRepository routeRepository,
             TransitRouteStopRepository routeStopRepository,
             TransitVehicleRepository vehicleRepository,
             VehicleLocationRepository locationRepository,
-            TransportRepository transportRepository
+            TransportRepository transportRepository,
+            GeocodingService geocodingService,
+            RoutingService routingService
     ) {
-        this.stopRepository = stopRepository;
         this.routeRepository = routeRepository;
         this.routeStopRepository = routeStopRepository;
         this.vehicleRepository = vehicleRepository;
         this.locationRepository = locationRepository;
         this.transportRepository = transportRepository;
+        this.geocodingService = geocodingService;
+        this.routingService = routingService;
     }
 
     public List<TransportRoute> getJeepneyRoutes() {
@@ -115,7 +110,7 @@ public class TransportService {
                 List.of(
                         new TrafficBarResponse("Mon", 82, "#f3c449"),
                         new TrafficBarResponse("Tue", 68, "#f2c34d"),
-                        new TrafficBarResponse("Wed", 55, "#f3c44b"),
+                        new TrafficBarResponse("Wed", 55, "#f4c74f"),
                         new TrafficBarResponse("Thu", 40, "#f4c74f"),
                         new TrafficBarResponse("Fri", 25, "#f4cb67")
                 ),
@@ -136,12 +131,13 @@ public class TransportService {
 
         List<TransitRouteStop> routeStops = routeStopRepository.findByRouteOrderBySequenceNumberAsc(vehicle.getRoute());
         TransitStop destinationStop = routeStops.get(routeStops.size() - 1).getStop();
-        GeocodedPlace destinationPlace = toPlace(destinationStop);
+        GeocodedPlace destinationPlace = new GeocodedPlace(destinationStop.getName(), destinationStop.getLatitude(), destinationStop.getLongitude());
 
         List<RouteSuggestionResponse> suggestions = new ArrayList<>();
         String etaDuration = "8 mins";
         try {
-            List<RouteResult> routeResults = routeBetween(List.of(currentPlace.coordinate(), destinationPlace.coordinate()), 2);
+            List<RouteResult> routeResults = routingService.routeBetween(
+                    List.of(currentPlace.coordinate(), destinationPlace.coordinate()), 2);
             RouteResult primary = routeResults.get(0);
             etaDuration = formatMinutes(primary.durationSeconds());
 
@@ -158,6 +154,7 @@ public class TransportService {
                 ));
             }
         } catch (ResponseStatusException exception) {
+            log.warn("OSRM routing failed for driver dashboard ({}): {}", email, exception.getReason());
             suggestions.add(new RouteSuggestionResponse(
                     vehicle.getRoute().getOriginLabel() + " -> " + vehicle.getRoute().getDestinationLabel(),
                     destinationStop.getName(),
@@ -181,13 +178,15 @@ public class TransportService {
                 LocalDate.now().format(DRIVER_DATE_FORMAT),
                 vehicle.getDriverName(),
                 new DriverLocationResponse(
-                        locationLabelFromCoordinates(location.getLatitude(), location.getLongitude(), vehicle.getRoute().getDisplayName()),
-                        describeUpdate(location.getUpdatedAt()),
+                        geocodingService.locationLabelFromCoordinates(
+                                location.getLatitude(), location.getLongitude(),
+                                vehicle.getRoute().getDisplayName()),
+                        "Just now",
                         true,
                         location.getLatitude(),
-                location.getLongitude(),
-                null,
-                "MODERATE"
+                        location.getLongitude(),
+                        null,
+                        "MODERATE"
                 ),
                 new EtaCardResponse(etaDuration, destinationStop.getName(), 34),
                 suggestions,
@@ -238,8 +237,8 @@ public class TransportService {
 
     public RoutePlannerResponse getRoutePlan(String mode, String from, String to) {
         TransportMode transportMode = normalizeMode(mode);
-        GeocodedPlace origin = resolvePlace(from);
-        GeocodedPlace destination = resolvePlace(to);
+        GeocodedPlace origin = geocodingService.resolvePlace(from);
+        GeocodedPlace destination = geocodingService.resolvePlace(to);
         RouteMatch match = findBestRoute(transportMode, origin, destination);
 
         double waitMinutes = estimateWaitingMinutes(match);
@@ -255,7 +254,7 @@ public class TransportService {
         checkpoints.add(match.alightingStop().coordinate());
         checkpoints.add(destination.coordinate());
 
-        List<RouteResult> routeResults = routeBetween(checkpoints, 1);
+        List<RouteResult> routeResults = routingService.routeBetween(checkpoints, 1);
         RouteResult route = routeResults.get(0);
 
         RoutePlannerResponse response = new RoutePlannerResponse(
@@ -282,8 +281,8 @@ public class TransportService {
 
     public TripSessionResponse startTrip(StartTripRequest request) {
         TransportMode transportMode = normalizeMode(request.mode());
-        GeocodedPlace origin = resolvePlace(request.from());
-        GeocodedPlace destination = resolvePlace(request.to());
+        GeocodedPlace origin = geocodingService.resolvePlace(request.from());
+        GeocodedPlace destination = geocodingService.resolvePlace(request.to());
         RouteMatch match = findBestRoute(transportMode, origin, destination);
 
         List<CoordinateResponse> checkpoints = new ArrayList<>();
@@ -293,7 +292,7 @@ public class TransportService {
         checkpoints.add(match.alightingStop().coordinate());
         checkpoints.add(destination.coordinate());
 
-        List<RouteResult> routeResults = routeBetween(checkpoints, 1);
+        List<RouteResult> routeResults = routingService.routeBetween(checkpoints, 1);
         RouteResult route = routeResults.get(0);
         List<TripFrame> frames = buildTripFrames(match, origin, destination, route);
 
@@ -309,6 +308,7 @@ public class TransportService {
         );
 
         trips.put(state.tripId(), state);
+        log.info("Trip started: {} from {} to {}", state.tripId(), origin.label(), destination.label());
         return toResponse(state);
     }
 
@@ -330,8 +330,11 @@ public class TransportService {
                 current.vehicleId()
         );
         trips.put(tripId, updated);
+        log.debug("Trip {} advanced to step {}/{}", tripId, nextStep, current.frames().size() - 1);
         return toResponse(updated);
     }
+
+    // ── Internal helpers ──────────────────────────────────────────────
 
     private TransitVehicle resolveDriverVehicle(String email) {
         if (email == null || email.isBlank()) {
@@ -351,7 +354,10 @@ public class TransportService {
         for (TransitRoute route : routes) {
             List<TransitRouteStop> routeStops = routeStopRepository.findByRouteOrderBySequenceNumberAsc(route);
             List<StopPoint> stopPoints = routeStops.stream()
-                    .map(routeStop -> new StopPoint(routeStop.getSequenceNumber(), toPlace(routeStop.getStop())))
+                    .map(routeStop -> new StopPoint(routeStop.getSequenceNumber(),
+                            new GeocodedPlace(routeStop.getStop().getName(),
+                                    routeStop.getStop().getLatitude(),
+                                    routeStop.getStop().getLongitude())))
                     .toList();
 
             for (int boardingIndex = 0; boardingIndex < stopPoints.size(); boardingIndex++) {
@@ -393,7 +399,8 @@ public class TransportService {
     private TransitVehicle nearestVehicle(TransitRoute route, CoordinateResponse boardingPoint) {
         return vehicleRepository.findByRouteAndStatus(route, VehicleStatus.ACTIVE).stream()
                 .min(Comparator.comparingDouble(vehicle -> locationRepository.findByVehicle(vehicle)
-                        .map(location -> distanceMeters(boardingPoint, new CoordinateResponse(location.getLatitude(), location.getLongitude())))
+                        .map(location -> distanceMeters(boardingPoint,
+                                new CoordinateResponse(location.getLatitude(), location.getLongitude())))
                         .orElse(Double.MAX_VALUE)))
                 .orElse(null);
     }
@@ -508,8 +515,7 @@ public class TransportService {
 
     private TripSessionResponse toResponse(TripState state) {
         TripFrame frame = state.frames().get(state.currentStep());
-        
-        // Dynamically fetch the REAL LIVE location broadcasted by the Driver's App!
+
         CoordinateResponse liveVehiclePosition = frame.vehiclePosition();
         String driverId = null;
         Long vehicleId = state.vehicleId();
@@ -522,7 +528,7 @@ public class TransportService {
                     .orElse(liveVehiclePosition);
             }
         }
-        
+
         return new TripSessionResponse(
                 state.tripId(),
                 "Live Map",
@@ -535,127 +541,14 @@ public class TransportService {
                 state.origin().coordinate(),
                 state.destination().coordinate(),
                 frame.currentPosition(),
-                liveVehiclePosition, // Real GPS Location!
+                liveVehiclePosition,
                 driverId,
                 state.routePath()
         );
     }
 
-    private GeocodedPlace resolvePlace(String rawQuery) {
-        if (rawQuery == null || rawQuery.isBlank()) {
-            return toPlace(stopRepository.findByNameIgnoreCase("SM City Batangas")
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Default stop not found")));
-        }
-
-        return stopRepository.findByNameIgnoreCase(rawQuery.trim())
-                .map(this::toPlace)
-                .orElseGet(() -> geocode(rawQuery));
-    }
-
-    private GeocodedPlace geocode(String rawQuery) {
-        String normalizedQuery = normalizePlaceQuery(rawQuery);
-        JsonNode results = getJson(NOMINATIM_BASE
-                + "?format=jsonv2&limit=1&countrycodes=ph&bounded=1&viewbox=121.02,13.84,121.14,13.70&q="
-                + encode(normalizedQuery));
-
-        if (!results.isArray() || results.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not find place in Batangas City: " + rawQuery);
-        }
-
-        JsonNode first = results.get(0);
-        return new GeocodedPlace(
-                rawQuery.trim(),
-                first.path("lat").asDouble(),
-                first.path("lon").asDouble()
-        );
-    }
-
-    private List<RouteResult> routeBetween(List<CoordinateResponse> points, int alternatives) {
-        String coordinates = points.stream()
-                .map(point -> point.longitude() + "," + point.latitude())
-                .reduce((left, right) -> left + ";" + right)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Route points are required"));
-
-        JsonNode payload = getJson(OSRM_BASE + coordinates + "?overview=full&steps=true&geometries=geojson&alternatives=" + alternatives);
-        JsonNode routes = payload.path("routes");
-        if (!routes.isArray() || routes.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "No road route found for the selected Batangas locations");
-        }
-
-        List<RouteResult> results = new ArrayList<>();
-        for (JsonNode routeNode : routes) {
-            List<CoordinateResponse> geometry = new ArrayList<>();
-            for (JsonNode coordinate : routeNode.path("geometry").path("coordinates")) {
-                geometry.add(new CoordinateResponse(coordinate.get(1).asDouble(), coordinate.get(0).asDouble()));
-            }
-
-            List<String> roadNames = new ArrayList<>();
-            for (JsonNode legNode : routeNode.path("legs")) {
-                for (JsonNode stepNode : legNode.path("steps")) {
-                    String name = stepNode.path("name").asText("");
-                    if (!name.isBlank()) {
-                        roadNames.add(name);
-                    }
-                }
-            }
-
-            results.add(new RouteResult(
-                    routeNode.path("distance").asDouble(),
-                    routeNode.path("duration").asDouble(),
-                    geometry,
-                    roadNames
-            ));
-        }
-
-        results.sort(Comparator.comparingDouble(RouteResult::durationSeconds));
-        return results;
-    }
-
-    private JsonNode getJson(String url) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .timeout(Duration.ofSeconds(20))
-                .header("Accept", "application/json")
-                .header("User-Agent", "biyahenyo-dev/1.0")
-                .GET()
-                .build();
-
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() < 200 || response.statusCode() >= 300) {
-                throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Map service request failed");
-            }
-            return objectMapper.readTree(response.body());
-        } catch (InterruptedException exception) {
-            Thread.currentThread().interrupt();
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Map service request interrupted", exception);
-        } catch (IOException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Could not contact map service", exception);
-        }
-    }
-
-    private GeocodedPlace toPlace(TransitStop stop) {
-        return new GeocodedPlace(stop.getName(), stop.getLatitude(), stop.getLongitude());
-    }
-
     private TransportMode normalizeMode(String mode) {
         return mode == null ? TransportMode.TRICYCLE : TransportMode.valueOf(mode.trim().toUpperCase(Locale.ENGLISH));
-    }
-
-    private String normalizePlaceQuery(String rawQuery) {
-        String query = rawQuery.trim();
-        String lower = query.toLowerCase(Locale.ENGLISH);
-        if (!lower.contains("batangas")) {
-            return query + ", Batangas City, Batangas, Philippines";
-        }
-        if (!lower.contains("philippines")) {
-            return query + ", Philippines";
-        }
-        return query;
-    }
-
-    private String describeUpdate(LocalDateTime updatedAt) {
-        return updatedAt == null ? "Just now" : "Just now";
     }
 
     private double estimateWaitingMinutes(RouteMatch match) {
@@ -688,17 +581,6 @@ public class TransportService {
         return total;
     }
 
-    private double distanceMeters(CoordinateResponse a, CoordinateResponse b) {
-        double earthRadius = 6371000;
-        double lat1 = Math.toRadians(a.latitude());
-        double lat2 = Math.toRadians(b.latitude());
-        double deltaLat = Math.toRadians(b.latitude() - a.latitude());
-        double deltaLon = Math.toRadians(b.longitude() - a.longitude());
-        double haversine = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2)
-                + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-        return 2 * earthRadius * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
-    }
-
     private String vehicleLabel(RouteMatch match) {
         return match.vehicle() == null ? match.route().getDisplayName() : match.vehicle().getLabel();
     }
@@ -717,11 +599,6 @@ public class TransportService {
             return destination.label();
         }
         return "Batangas City";
-    }
-
-    private boolean samePoint(CoordinateResponse first, CoordinateResponse second) {
-        return Math.abs(first.latitude() - second.latitude()) < 0.0001
-                && Math.abs(first.longitude() - second.longitude()) < 0.0001;
     }
 
     private String formatMinutes(double durationSeconds) {
@@ -744,24 +621,7 @@ public class TransportService {
         return durationSeconds <= baselineSeconds * 1.12 ? "Moderate Traffic" : "Heavy Traffic";
     }
 
-    private String locationLabelFromCoordinates(double latitude, double longitude, String fallback) {
-        CoordinateResponse current = new CoordinateResponse(latitude, longitude);
-        return stopRepository.findAll().stream()
-                .filter(stop -> distanceMeters(current, new CoordinateResponse(stop.getLatitude(), stop.getLongitude())) < 200)
-                .min(Comparator.comparingDouble(stop -> distanceMeters(current, new CoordinateResponse(stop.getLatitude(), stop.getLongitude()))))
-                .map(stop -> "At " + stop.getName())
-                .orElse(fallback);
-    }
-
-    private String encode(String value) {
-        return URLEncoder.encode(value, StandardCharsets.UTF_8);
-    }
-
-    private record GeocodedPlace(String label, double latitude, double longitude) {
-        CoordinateResponse coordinate() {
-            return new CoordinateResponse(latitude, longitude);
-        }
-    }
+    // ── Internal records ──────────────────────────────────────────────
 
     private record StopPoint(int sequenceNumber, GeocodedPlace place) {
     }
@@ -775,14 +635,6 @@ public class TransportService {
             double totalDistanceMeters,
             double transitDistanceMeters,
             double score
-    ) {
-    }
-
-    private record RouteResult(
-            double distanceMeters,
-            double durationSeconds,
-            List<CoordinateResponse> geometry,
-            List<String> roadNames
     ) {
     }
 

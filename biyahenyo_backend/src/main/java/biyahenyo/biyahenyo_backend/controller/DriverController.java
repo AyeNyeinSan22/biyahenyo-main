@@ -13,6 +13,7 @@ import biyahenyo.biyahenyo_backend.dto.DriverLocationResponse;
 import biyahenyo.biyahenyo_backend.dto.DriverLocationUpdateRequest;
 import biyahenyo.biyahenyo_backend.service.DriverService;
 import biyahenyo.biyahenyo_backend.service.TransportService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/driver")
@@ -34,7 +35,7 @@ public class DriverController {
     @PostMapping("/location")
     public DriverDashboardResponse updateLocation(
             @AuthenticationPrincipal String email,
-            @RequestBody(required = false) DriverLocationUpdateRequest request
+            @Valid @RequestBody(required = false) DriverLocationUpdateRequest request
     ) {
         return transportService.updateDriverLocation(email, request);
     }
@@ -42,7 +43,7 @@ public class DriverController {
     @PostMapping("/update-location")
     public DriverLocationResponse updateDriverLiveLocation(
             @AuthenticationPrincipal String email,
-            @RequestBody(required = false) DriverLocationUpdateRequest request
+            @Valid @RequestBody(required = false) DriverLocationUpdateRequest request
     ) {
         return driverService.updateLocation(request, email);
     }

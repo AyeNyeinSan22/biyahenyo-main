@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getRoutePlan, startTrip } from "../api/transport";
 import { getDriverLocation } from "../api/api";
 import PassengerMap from "../components/PassengerMap";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorState from "../components/ErrorState";
 import { useAuth } from "../auth/AuthContext";
 import { DEMO_MODE, DEMO_PASSENGER_STEPS, DEMO_STAGES } from "../demo/demoData";
 
@@ -57,12 +59,6 @@ export default function RoutePlannerPage() {
       etaMinutes: location?.etaMinutes ?? response?.etaMinutes,
       traffic: location?.traffic ?? response?.traffic,
     };
-    console.info("[RoutePlanner] Driver location updated:", {
-      driverId,
-      etaMinutes: normalized.etaMinutes,
-      traffic: normalized.traffic,
-      hasLocation: Boolean(normalized.latitude && normalized.longitude),
-    });
     return normalized;
   };
 
@@ -127,14 +123,6 @@ export default function RoutePlannerPage() {
   }, [from, mode, to]);
 
   useEffect(() => {
-    console.info("[RoutePlanner] Driver location state changed:", {
-      hasLocation: Boolean(driverLocation),
-      etaMinutes,
-      traffic,
-    });
-  }, [driverLocation, etaMinutes, traffic]);
-
-  useEffect(() => {
     if (!driverId) {
       setDriverLocation(null);
       setDriverError("Sign in to view live driver updates.");
@@ -157,7 +145,6 @@ export default function RoutePlannerPage() {
       }
     };
 
-    console.info("[RoutePlanner] Starting driver polling for:", driverId);
     fetchDriver();
     const timer = window.setInterval(() => {
       fetchDriver().catch((err) => console.warn("[RoutePlanner] Driver fetch error:", err.message));
@@ -192,11 +179,11 @@ export default function RoutePlannerPage() {
   };
 
   if (loading) {
-    return <main className="simple-state">Loading route planner...</main>;
+    return <LoadingSpinner label="Loading route planner…" />;
   }
 
   if (error && !plan) {
-    return <main className="simple-state error">{error}</main>;
+    return <ErrorState message={error} />;
   }
 
   return (
@@ -357,7 +344,7 @@ export default function RoutePlannerPage() {
            {driverError ? (
              <p style={{ color: "var(--accent)", fontSize: "0.85rem", marginTop: "12px", textAlign: "center" }}>{driverError}</p>
            ) : null}
-           {error ? <p style={{ color: "var(--accent)", fontSize: "0.9rem", marginTop: "16px", textAlign: "center" }}>{error}</p> : null}
+           {error ? <p className="form-error" role="alert">{error}</p> : null}
 
            <button 
              type="button" 

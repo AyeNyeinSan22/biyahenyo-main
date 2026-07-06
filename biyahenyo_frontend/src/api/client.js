@@ -1,18 +1,5 @@
 function resolveApiBaseUrl() {
-  const configuredUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
-  const frontendHost = window.location.hostname;
-
-  if (frontendHost === "localhost" || frontendHost === "127.0.0.1") {
-    return "http://localhost:8080";
-  }
-
-  try {
-    const url = new URL(configuredUrl);
-    url.hostname = frontendHost;
-    return url.toString().replace(/\/$/, "");
-  } catch {
-    return configuredUrl;
-  }
+  return import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
 }
 
 const API_BASE_URL = resolveApiBaseUrl();

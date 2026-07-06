@@ -16,9 +16,12 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 50)
     private String reportType;
+
+    @Column(nullable = false, length = 200)
     private String location;
-    
+
     @Column(columnDefinition = "TEXT")
     private String description;
 

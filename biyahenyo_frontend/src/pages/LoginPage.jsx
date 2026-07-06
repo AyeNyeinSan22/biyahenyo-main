@@ -93,7 +93,7 @@ export default function LoginPage() {
           </div>
         </div>
       ) : (
-      <form className="auth-form" onSubmit={handleSubmit} style={{ display: "grid", gap: "16px" }}>
+      <form className="auth-form" onSubmit={handleSubmit} aria-label="Login form" style={{ display: "grid", gap: "16px" }}>
         <div className="field">
           <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text-muted)", marginBottom: "6px", display: "block" }}>Email</span>
           <div className="premium-card" style={{ margin: 0, padding: "12px", background: "var(--bg-app)" }}>
@@ -151,7 +151,7 @@ export default function LoginPage() {
           <span className="hint-link" style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--primary-dark)" }}>Forgot password?</span>
         </div>
 
-        {error ? <p className="form-error" style={{ color: "#FF3B30", fontSize: "0.85rem", margin: 0 }}>{error}</p> : null}
+        {error ? <p className="form-error" role="alert">{error}</p> : null}
 
         <button 
           type="submit" 

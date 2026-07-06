@@ -7,3 +7,6 @@ nbproject/private/
 *.class
 *.jar
 *.log
+*.env
+biyahenyo_backend/data/
+.vercel

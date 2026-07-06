@@ -1,5 +1,7 @@
 package biyahenyo.biyahenyo_backend.service;
 
+import static biyahenyo.biyahenyo_backend.util.GeoUtil.distanceMeters;
+
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Locale;
@@ -157,16 +159,5 @@ public class DriverService {
                 .min(Comparator.comparingDouble(stop -> distanceMeters(current, new CoordinateResponse(stop.getLatitude(), stop.getLongitude()))))
                 .map(stop -> "At " + stop.getName())
                 .orElse(fallback);
-    }
-
-    private double distanceMeters(CoordinateResponse a, CoordinateResponse b) {
-        double earthRadius = 6371000;
-        double lat1 = Math.toRadians(a.latitude());
-        double lat2 = Math.toRadians(b.latitude());
-        double deltaLat = Math.toRadians(b.latitude() - a.latitude());
-        double deltaLon = Math.toRadians(b.longitude() - a.longitude());
-        double haversine = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2)
-                + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-        return 2 * earthRadius * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
     }
 }

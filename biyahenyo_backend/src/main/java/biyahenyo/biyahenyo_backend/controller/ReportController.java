@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import biyahenyo.biyahenyo_backend.dto.ReportRequest;
 import biyahenyo.biyahenyo_backend.model.Report;
 import biyahenyo.biyahenyo_backend.service.ReportService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/reports")
@@ -22,8 +24,12 @@ public class ReportController {
     }
 
     @PostMapping("/add")
-    public Report addReport(@RequestBody Report report) {
-        return reportService.addReport(report == null ? new Report() : report);
+    public Report addReport(@Valid @RequestBody ReportRequest request) {
+        Report report = new Report();
+        report.setReportType(request.getReportType());
+        report.setLocation(request.getLocation());
+        report.setDescription(request.getDescription());
+        return reportService.addReport(report);
     }
 
     @GetMapping("/all")

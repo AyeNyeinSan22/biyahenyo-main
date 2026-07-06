@@ -5,6 +5,8 @@ import { getDriverLocation } from "../api/api";
 import PassengerMap from "../components/PassengerMap";
 import { useAuth } from "../auth/AuthContext";
 import { DEMO_MODE, DEMO_STAGES } from "../demo/demoData";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorState from "../components/ErrorState";
 
 export default function LiveMapPage() {
   const navigate = useNavigate();
@@ -81,7 +83,6 @@ export default function LiveMapPage() {
       }
     };
 
-    console.info("[LiveMap] Starting driver polling for:", driverId);
     fetchDriver();
     const timer = window.setInterval(fetchDriver, 1500);
     return () => {
@@ -157,7 +158,6 @@ export default function LiveMapPage() {
       
       const updated = [newEntry, ...recentTrips.filter(t => t.id !== completedTrip.tripId)].slice(0, 5);
       localStorage.setItem("biyahenyo_recent_trips", JSON.stringify(updated));
-      console.info("[LiveMap] Saved to recent trips:", newEntry);
     } catch (e) {
       console.error("[LiveMap] Failed to save recent trip:", e);
     }
@@ -185,11 +185,11 @@ export default function LiveMapPage() {
   };
 
   if (error && !trip) {
-    return <main className="simple-state error">{error}</main>;
+    return <ErrorState message={error} />;
   }
 
   if (!trip || !currentStep || routePath.length === 0) {
-    return <main className="simple-state">Loading Batangas City live map...</main>;
+    return <LoadingSpinner label="Loading live map…" />;
   }
 
   return (
@@ -347,7 +347,7 @@ export default function LiveMapPage() {
            </div>
         </div>
 
-        {error && <p style={{ position: "absolute", bottom: "200px", left: "20px", right: "20px", textAlign: "center", color: "var(--accent)", fontWeight: 700, zIndex: 1000 }}>{error}</p>}
+        {error && <p className="toast-error" role="alert" style={{ position: "absolute", bottom: "200px", left: "20px", right: "20px", zIndex: 1000 }}>{error}</p>}
 
         {/* DEMO_MODE: Arrival Modal */}
         {DEMO_MODE && jeepneyArrived && !boarded && (

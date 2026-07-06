@@ -4,6 +4,8 @@ import { getDriverDashboard } from "../api/transport";
 import { updateDriverLiveLocation } from "../api/api";
 import { useAuth } from "../auth/AuthContext";
 import { DEMO_MODE as ENV_DEMO_MODE, DEMO_STAGES } from "../demo/demoData";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorState from "../components/ErrorState";
 
 export default function DriverDashboardPage() {
   const navigate = useNavigate();
@@ -282,11 +284,11 @@ export default function DriverDashboardPage() {
   };
 
   if (!dashboard && error) {
-    return <main className="simple-state error">{error}</main>;
+    return <ErrorState message={error} onRetry={handleManualForceUpdate} />;
   }
 
   if (!dashboard) {
-    return <main className="simple-state">Loading driver dashboard...</main>;
+    return <LoadingSpinner label="Loading driver dashboard…" />;
   }
 
   const simulationStages = (dashboard?.routeStops ?? []).map((stop, index) => {

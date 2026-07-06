@@ -41,6 +41,18 @@ export default function SignupPage() {
     setError("");
     setIsSubmitting(true);
 
+    if (form.password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!/[A-Za-z]/.test(form.password) || !/\d/.test(form.password)) {
+      setError("Password must contain at least one letter and one number.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       await register(form);
       // Registration successful: Do not auto-login. Redirect them to login page.
@@ -60,7 +72,7 @@ export default function SignupPage() {
       footerLink="/login"
       footerLinkLabel="Login"
     >
-      <form className="auth-form" onSubmit={handleSubmit} style={{ display: "grid", gap: "14px" }}>
+      <form className="auth-form" onSubmit={handleSubmit} aria-label="Sign up form" style={{ display: "grid", gap: "14px" }}>
         <div className="field">
           <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text-muted)", marginBottom: "4px", display: "block" }}>Full Name</span>
           <div className="premium-card" style={{ margin: 0, padding: "12px", background: "var(--bg-app)" }}>
@@ -144,7 +156,7 @@ export default function SignupPage() {
           ))}
         </div>
 
-        {error ? <p className="form-error" style={{ color: "#FF3B30", fontSize: "0.85rem", margin: 0 }}>{error}</p> : null}
+        {error ? <p className="form-error" role="alert">{error}</p> : null}
 
         <button 
           type="submit" 

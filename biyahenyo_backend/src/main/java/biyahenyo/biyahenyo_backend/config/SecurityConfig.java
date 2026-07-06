@@ -1,7 +1,9 @@
 package biyahenyo.biyahenyo_backend.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,9 @@ import biyahenyo.biyahenyo_backend.security.JwtFilter;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+
+    @Value("${cors.allowed-origins:http://localhost:5173,http://127.0.0.1:5173}")
+    private String allowedOrigins;
 
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
@@ -48,7 +53,8 @@ public class SecurityConfig {
                             "/api/auth/register",
                             "/api/auth/register/"
                     ).permitAll()
-                        .requestMatchers("/api/routes/plan", "/api/routes/trips/start", "/api/routes/trips/**").permitAll()
+                        .requestMatchers("/api/routes/plan").hasAnyRole("USER", "DRIVER")
+                        .requestMatchers("/api/routes/trips/start", "/api/routes/trips/**").hasAnyRole("USER", "DRIVER")
                     .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/driver/location/**").hasAnyRole("USER", "DRIVER")
                     .requestMatchers("/api/driver/update-location").hasRole("DRIVER")
                         .requestMatchers("/api/driver/**").hasRole("DRIVER")
@@ -67,13 +73,16 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        List<String> origins = new ArrayList<>();
+        for (String origin : allowedOrigins.split(",")) {
+            String trimmed = origin.trim();
+            if (!trimmed.isEmpty()) {
+                origins.add(trimmed);
+            }
+        }
+
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-            "http://localhost:5173", 
-            "http://127.0.0.1:5173", 
-            "http://localhost:5174", 
-            "http://127.0.0.1:5174"
-        ));
+        configuration.setAllowedOrigins(origins);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With"));
         configuration.setAllowCredentials(true);

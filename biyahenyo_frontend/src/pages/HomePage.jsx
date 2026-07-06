@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorState from "../components/ErrorState";
 import { useAuth } from "../auth/AuthContext";
 import { getHomeDashboard } from "../api/transport";
 
@@ -45,22 +47,20 @@ export default function HomePage() {
   };
 
   if (loading) {
-    return <main className="simple-state">Loading home dashboard...</main>;
+    return <LoadingSpinner label="Loading home dashboard…" />;
   }
 
   if (error) {
     return (
-      <main className="simple-state error">
-        <p>{error}</p>
-        <button type="button" className="primary-btn" onClick={() => {
+      <ErrorState
+        message={error}
+        onRetry={() => {
           user ? navigate('/login', { replace: true }) : navigate('/login');
           localStorage.removeItem('biyahenyo.auth');
           sessionStorage.removeItem('biyahenyo.auth');
           window.location.reload();
-        }} style={{ marginTop: '1rem', width: 'auto', padding: '0.5rem 1rem' }}>
-          Logout & Try Again
-        </button>
-      </main>
+        }}
+      />
     );
   }
 

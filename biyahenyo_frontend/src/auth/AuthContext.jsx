@@ -117,13 +117,6 @@ export function AuthProvider({ children }) {
     otherStorage.removeItem(STORAGE_KEY);
     storage.setItem(STORAGE_KEY, JSON.stringify(authPayload));
     setUser(authPayload);
-    console.info("[Auth] Saved session", {
-      email: authPayload?.email,
-      role: authPayload?.role,
-      hasToken: Boolean(authPayload?.token),
-      tokenLength: authPayload?.token?.length ?? 0,
-      storage: rememberMe ? "localStorage" : "sessionStorage",
-    });
   };
 
   const logout = () => {

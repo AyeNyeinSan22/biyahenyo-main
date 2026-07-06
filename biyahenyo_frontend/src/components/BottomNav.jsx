@@ -62,7 +62,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="fixed-bottom-nav">
+    <nav className="fixed-bottom-nav" aria-label="Main navigation">
       {navItems.map((item) => {
         const isActive = location.pathname === item.path;
         return (
@@ -71,6 +71,8 @@ export default function BottomNav() {
             type="button"
             onClick={() => navigate(item.path)}
             className={isActive ? "nav-active" : ""}
+            aria-label={item.label}
+            aria-current={isActive ? "page" : undefined}
             style={{
               color: isActive ? "var(--primary-dark)" : "var(--text-muted)",
             }}

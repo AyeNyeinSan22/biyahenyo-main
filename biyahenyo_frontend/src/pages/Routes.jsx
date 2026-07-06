@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getRoutePlan } from "../api/transport";
 import { getDriverLocation } from "../api/api";
 import PassengerMap from "../components/PassengerMap";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorState from "../components/ErrorState";
 import { useAuth } from "../auth/AuthContext";
 import { DEMO_MODE, DEMO_PASSENGER_STEPS, DEMO_STAGES } from "../demo/demoData";
 import BottomNav from "../components/BottomNav";
@@ -57,12 +59,6 @@ export default function RoutesPage() {
       etaMinutes: location?.etaMinutes ?? response?.etaMinutes,
       traffic: location?.traffic ?? response?.traffic,
     };
-    console.info("[Routes] Driver location updated:", {
-      driverId,
-      etaMinutes: normalized.etaMinutes,
-      traffic: normalized.traffic,
-      hasLocation: Boolean(normalized.latitude && normalized.longitude),
-    });
     return normalized;
   };
 
@@ -133,14 +129,6 @@ export default function RoutesPage() {
   }, [from, mode, to]);
 
   useEffect(() => {
-    console.info("[Routes] Driver location state changed:", {
-      hasLocation: Boolean(driverLocation),
-      etaMinutes,
-      traffic,
-    });
-  }, [driverLocation, etaMinutes, traffic]);
-
-  useEffect(() => {
     if (!driverId) {
       setDriverLocation(null);
       setDriverError("Sign in to view live driver updates.");
@@ -163,7 +151,6 @@ export default function RoutesPage() {
       }
     };
 
-    console.info("[Routes] Starting driver polling for:", driverId);
     fetchDriver();
     const timer = window.setInterval(() => {
       fetchDriver().catch((err) => console.warn("[Routes] Driver fetch error:", err.message));
@@ -225,12 +212,12 @@ export default function RoutesPage() {
 
         {/* Show loading state */}
         {loading && from && to && (
-          <main className="simple-state">Loading route details...</main>
+          <LoadingSpinner label="Loading route details…" />
         )}
 
         {/* Show error state if route loading failed */}
         {error && !plan && from && to && (
-          <main className="simple-state error">{error}</main>
+          <ErrorState message={error} />
         )}
 
         {/* Map and Route Details */}
@@ -372,7 +359,7 @@ export default function RoutesPage() {
               {driverError ? (
                 <p style={{ color: "var(--accent)", fontSize: "0.85rem", marginTop: "12px", textAlign: "center" }}>{driverError}</p>
               ) : null}
-              {error ? <p style={{ color: "var(--accent)", fontSize: "0.9rem", marginTop: "16px", textAlign: "center" }}>{error}</p> : null}
+              {error ? <p className="form-error" role="alert">{error}</p> : null}
             </div>
           </>
         )}

@@ -9,8 +9,8 @@ export default function AuthShell({
   footerLinkLabel,
 }) {
   return (
-    <div className="app-container">
-      <header className="sticky-header" style={{ background: "transparent", border: "none" }}>
+    <div className="app-container" role="main">
+      <header className="sticky-header" style={{ background: "transparent", border: "none" }} aria-hidden="true">
         <div className="status-bar" style={{ padding: "0" }}>
           <span>03:16</span>
           <div className="status-icons">
