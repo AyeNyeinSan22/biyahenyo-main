@@ -74,7 +74,7 @@ The application is designed mobile-first, providing a native app-like experience
 ### Fare Calculator & Transport Guide
 | Fare Input | Fare Result | Guide | Route Details |
 |:----------:|:-----------:|:-----:|:-------------:|
-| ![Fare](screenshots/Fare%20Calculator/claculator1.png) | ![Result](screenshots/Fare%20Calculator/claculator2.png) | ![Guide](screenshots/Guide/guide1.png) | ![Details](screenshots/Guide/guide2.png) |
+| ![Fare](screenshots/Fare-Calculator/claculator1.png) | ![Result](screenshots/Fare-Calculator/claculator2.png) | ![Guide](screenshots/Guide/guide1.png) | ![Details](screenshots/Guide/guide2.png) |
 
 ---
 
