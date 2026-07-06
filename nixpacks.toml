@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["openjdk17"]
+
+[phases.build]
+cmds = ["cd biyahenyo_backend && ./gradlew bootJar -x test"]
+
+[phases.start]
+cmd = "java -jar biyahenyo_backend/build/libs/biyahenyo_backend-0.0.1-SNAPSHOT.jar"
